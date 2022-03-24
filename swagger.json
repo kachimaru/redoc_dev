@@ -1,0 +1,150 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "thegraph.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "TheGraphService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v2/inventory/{chain}/{owner}/{contract}": {
+      "get": {
+        "operationId": "TheGraphService_GetAssetsByOwnerAndContractFromSomeChain",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/thegraphAssets"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "chain",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "mainnet",
+              "matic",
+              "mch_verse"
+            ]
+          },
+          {
+            "name": "owner",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contract",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TheGraphService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetAssetsInputChain": {
+      "type": "string",
+      "enum": [
+        "mainnet",
+        "matic",
+        "mch_verse"
+      ],
+      "default": "mainnet"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "thegraphAsset": {
+      "type": "object",
+      "properties": {
+        "tokenId": {
+          "type": "string"
+        },
+        "contractAddress": {
+          "type": "string"
+        },
+        "tokenURI": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "metadata": {
+          "$ref": "#/definitions/thegraphMetadata"
+        }
+      }
+    },
+    "thegraphAssets": {
+      "type": "object",
+      "properties": {
+        "asset": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/thegraphAsset"
+          }
+        }
+      }
+    },
+    "thegraphMetadata": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
